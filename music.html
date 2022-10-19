@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang = "en" dir = "ltr">
+    <head>
+        <meta charset = "utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+        <title>ProjectBeats | Generate Music</title>
+        <link rel = "stylesheet" href = "main.css">
+        <!-- Load @magenta/music -->
+    <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.0.0"></script>
+    <!-- Place your code in the script tag below. You can also use an external .js file -->
+    <script>
+      // Instantiate the model by loading the desired checkpoint.
+      const model = new mm.MusicVAE(
+          'https://storage.googleapis.com/download.magenta.tensorflow.org/' +
+          'tfjs_checkpoints/music_vae/trio_4bar_lokl_small_q1');
+      const player = new mm.Player();
+
+      const start = () => {
+        document.getElementById("start").style.display = "none";
+        // Resume AudioContext on user action to enable audio.
+        mm.Player.tone.context.resume();
+        model.initialize().then(
+          // Endlessly sample and play back the result.
+          function sampleAndPlay() {
+            return model.sample(1)
+                .then((samples) => player.start(samples[0]))
+                .then(sampleAndPlay);
+          })};
+    </script>
+    </head>
+        <body>
+            <div class ="main">
+                <nav>
+                    <div class = "logo">
+                        <a href = "index.html"><img src="images\logo.png"></a>
+                    </div>
+                    <div class = "nav-links">
+                        <ul>
+                            <li><a href = "index.html">Home</a></li>
+                            <li><a href = "about.html">About Us</a></li>
+                            <li class = "current"><a href = "music.html">Generate Music</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class = "gif">
+                    <img src = "images/dancingcat.gif" height = "256" width = "450" id = "cat">
+                </div>
+                <div id="music">
+                    <audio controls autoplay></audio>
+                </div>
+                
+                <script src="gui.js"></script>
+               
+                
+            
+        </body>
+<html>
